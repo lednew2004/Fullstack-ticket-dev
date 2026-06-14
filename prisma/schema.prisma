@@ -1,0 +1,35 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+
+model Event {
+  id           String   @id @default(uuid())
+  title        String
+  description  String
+  date         String
+  horario      String
+  local        String
+  endereco     String
+  ticketsLimit Int
+  createdAt    DateTime @default(now())
+
+  tickets      Ticket[]
+}
+
+model Ticket {
+  id        String   @id @default(uuid())
+  userName      String
+  userEmail     String   @unique
+  userPhone     String
+
+  event     Event    @relation(fields: [eventId], references: [id])
+  eventId   String
+
+  createdAt DateTime @default(now())
+}
